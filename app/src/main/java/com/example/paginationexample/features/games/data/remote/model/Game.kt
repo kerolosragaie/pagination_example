@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Data(
     @SerializedName("data")
-    var games: ArrayList<Game> = arrayListOf(),
+    var games: ArrayList<Game>?= null,
 )
 
 data class Game(
