@@ -1,4 +1,4 @@
-package com.example.paginationexample.ui.theme
+package com.example.paginationexample.core.theme
 
 import android.app.Activity
 import android.os.Build

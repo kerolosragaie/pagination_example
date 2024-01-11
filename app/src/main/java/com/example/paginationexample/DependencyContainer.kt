@@ -1,5 +1,6 @@
 package com.example.paginationexample
 
+import com.example.paginationexample.features.games.data.remote.api.GamesApiService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

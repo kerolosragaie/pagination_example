@@ -1,4 +1,4 @@
-package com.example.paginationexample
+package com.example.paginationexample.features.games.presentation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +12,9 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.paginationexample.core.dummydata.dummyGamesList
+import com.example.paginationexample.features.games.data.remote.model.Game
 
 @Composable
 fun GamesScreen(games: List<Game>) {
@@ -61,7 +64,7 @@ fun MatchItem(index: Int, game: Game) {
                     style = MaterialTheme.typography.headlineMedium
                 )
             }
-            Text(text = "Date: ${game.date?.substring(0,10)}")
+            Text(text = "Date: ${game.date?.substring(0, 10)}")
             Text(
                 text = "Index: $index",
                 style = MaterialTheme.typography.bodySmall,
@@ -71,5 +74,12 @@ fun MatchItem(index: Int, game: Game) {
             )
         }
     }
+}
 
+@Preview(showSystemUi = true)
+@Composable
+fun PrevGamesScreen() {
+    GamesScreen(
+        games = dummyGamesList
+    )
 }
