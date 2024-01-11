@@ -15,8 +15,8 @@ class GamesPagingSource(
             page?.prevKey?.minus(1) ?: page?.nextKey?.plus(1)
         }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Game> {
-        return try {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Game> =
+        try {
             val pageNumber: Int = params.key ?: 0
             val games = apiService.getGames(
                 pageNumber = pageNumber,
@@ -34,5 +34,4 @@ class GamesPagingSource(
         } catch (e: Exception) {
             LoadResult.Error(e)
         }
-    }
 }
