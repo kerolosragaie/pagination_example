@@ -7,26 +7,40 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.example.paginationexample.features.games.data.remote.model.Game
 
 @Composable
-fun GamesScreen(games: LazyPagingItems<Game>) {
+fun GamesScreen(games: LazyPagingItems<Game>, onClickRetry: () -> Unit) {
 
     when {
         games.loadState.refresh is LoadState.Error -> {
             val error = games.loadState.refresh as LoadState.Error
 
-            Text(
-                text = error.error.message.toString(),
-            )
+            Column {
+                Text(
+                    text = error.toString()
+                )
+                Button(onClick = onClickRetry) {
+                    Text(
+                        text = "Retry",
+                        color = Color.Red
+                    )
+                }
+            }
         }
 
         games.loadState.refresh is LoadState.Loading -> {
@@ -35,11 +49,23 @@ fun GamesScreen(games: LazyPagingItems<Game>) {
 
         games.itemCount > 0 -> {
             Column {
-                Text(
-                    text = "Games:",
-                    style = MaterialTheme.typography.headlineLarge,
-                    modifier = Modifier.padding(8.dp)
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Text(
+                        text = "Games:",
+                        style = MaterialTheme.typography.headlineLarge,
+                        modifier = Modifier.padding(8.dp)
+                    )
+
+                    IconButton(onClick = onClickRetry) {
+                        Icon(
+                            imageVector = Icons.Default.Refresh,
+                            contentDescription = null,
+                        )
+                    }
+                }
 
                 LazyColumn(
                     contentPadding = PaddingValues(
