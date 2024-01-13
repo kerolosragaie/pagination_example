@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class GamesViewModel(
     private val remoteDataSource: RemoteDataSource = DependencyContainer.remoteDataSource
@@ -27,19 +28,17 @@ class GamesViewModel(
         getGamesList()
     }
 
-    fun getGamesList() {
-        onEvent(GamesUiState.Loading)
-        remoteDataSource.getGamesList()
-            .onSuccess {
-                onEvent(GamesUiState.Success(it))
-            }.onFailure {
-                onEvent(GamesUiState.Error(it))
+    fun getGamesList() =
+        viewModelScope.launch {
+            _gamesUiState.emit(GamesUiState.Loading)
+            val result = remoteDataSource.getGamesList()
+            if (result.data != null) {
+                _gamesUiState.emit(GamesUiState.Success(gamesList = result.data))
+            } else {
+                _gamesUiState.emit(GamesUiState.Error(exception = result.exception!!))
             }
-    }
+        }
 
-    private fun onEvent(event: GamesUiState) = viewModelScope.launch {
-        _gamesUiState.emit(event)
-    }
 }
 
 sealed class GamesUiState {
@@ -49,6 +48,6 @@ sealed class GamesUiState {
     ) : GamesUiState()
 
     data class Error(
-        val data: Exception
+        val exception: Exception
     ) : GamesUiState()
 }

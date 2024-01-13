@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
                     is GamesUiState.Error -> {
                         Column {
                             Text(
-                                text = gamesUiState.data.message.toString()
+                                text = gamesUiState.exception.message.toString()
                             )
                             Button(onClick = { vm.getGamesList() }) {
                                 Text(

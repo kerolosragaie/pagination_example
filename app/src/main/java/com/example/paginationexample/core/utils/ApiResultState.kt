@@ -6,7 +6,7 @@ sealed class ApiResultState<out T> {
     data class Success<out T>(val data: T) : ApiResultState<T>()
     data class Failure(val exception: Exception) : ApiResultState<Nothing>()
 
-      fun onSuccess(block: (T) -> Unit): ApiResultState<T> {
+    fun onSuccess(block: (T) -> Unit): ApiResultState<T> {
         if (this is Success) {
             block(this.data)
         }
